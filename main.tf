@@ -152,7 +152,7 @@ resource "aws_instance" "master" {
     aws_security_group.ingress_k8s.id,
     aws_security_group.ingress_ssh.id
   ]
-  tags      = merge(local.tags, { "kubeadm:node" = "master" })
+  tags      = merge(local.tags, { "kubeadm:node" = "master", "Name"="kubeadm_master" })
   user_data = <<-EOF
   #!/bin/bash
 
@@ -196,7 +196,7 @@ resource "aws_instance" "workers" {
     aws_security_group.ingress_internal.id,
     aws_security_group.ingress_ssh.id
   ]
-  tags      = merge(local.tags, { "kubeadm:node" = "worker-${count.index}" })
+  tags      = merge(local.tags, { "kubeadm:node" = "worker-${count.index}", "Name" = "kubeadm-worker-${count.index}" })
   user_data = <<-EOF
   #!/bin/bash
 
